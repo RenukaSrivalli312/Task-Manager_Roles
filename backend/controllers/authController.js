@@ -120,7 +120,10 @@ const getMe = async (req, res) => {
 
 const getUsers = async (_req, res, next) => {
   try {
-    const users = await User.find({}, "name email role").sort({ name: 1 });
+    const users = await User.find(
+  { role: "user" },
+  "name email role"
+).sort({ name: 1 });
     res.status(200).json({
       success: true,
       count: users.length,

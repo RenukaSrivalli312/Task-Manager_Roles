@@ -1,9 +1,9 @@
-import { create } from 'axios';
+import axios from 'axios';
 import { clearAuthSession, getAuthSession } from '../utils/storage';
 
-const API_BASE_URL = 'http://10.104.247.94:5000/api';  
+const API_BASE_URL = 'https://task-manager-roles.onrender.com/api';  
 
-export const api = create({
+export const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
 });

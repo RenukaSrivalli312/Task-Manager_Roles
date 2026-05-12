@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.task_manager_roles"
     },
     "web": {
       "output": "single",
@@ -35,6 +36,12 @@
           "backgroundColor": "#ffffff"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ecdedba3-65cd-4c3e-bfb2-f90cadb0c0dc"
+      }
+    },
+    "owner": "renuka_srivalli"
   }
 }
