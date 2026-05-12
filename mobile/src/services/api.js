@@ -1,11 +1,11 @@
 import { create } from 'axios';
 import { clearAuthSession, getAuthSession } from '../utils/storage';
 
-const API_BASE_URL = 'http://10.22.178.94:5000/api';  
+const API_BASE_URL = 'http://10.104.247.94:5000/api';  
 
 export const api = create({
   baseURL: API_BASE_URL,
-  timeout: 15000,
+  timeout: 30000,
 });
 
 let onUnauthorized = null;

@@ -18,7 +18,7 @@ const statusFilters = [
   { value: 'all', label: 'All' },
   { value: 'pending', label: 'Pending' },
   { value: 'in-progress', label: 'In Progress' },
-  { value: 'completed', label: 'Done' },
+  { value: 'completed', label: 'Completed' },
 ];
 
 export default function TasksScreen({ navigation }) {
@@ -33,25 +33,30 @@ export default function TasksScreen({ navigation }) {
   const [error, setError] = useState('');
 
   const fetchTasks = useCallback(
-    async (mode = 'initial') => {
-      try {
-        if (mode === 'initial') setLoading(true);
-        if (mode === 'refresh') setRefreshing(true);
-        setError('');
-        const params = {};
-        if (status !== 'all') params.status = status;
-        const data = await getTasks(params);
-        const list = Array.isArray(data) ? data : data.tasks || data.data || [];
-        setTasks(list);
-      } catch (e) {
-        setError(getApiErrorMessage(e));
-      } finally {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    },
-    [status]
-  );
+  async (mode = 'initial') => {
+    try {
+      if (mode === 'initial') setLoading(true);
+      if (mode === 'refresh') setRefreshing(true);
+
+      setError('');
+
+      // Always fetch ALL tasks
+      const data = await getTasks();
+
+      const list = Array.isArray(data)
+        ? data
+        : data.tasks || data.data || [];
+
+      setTasks(list);
+    } catch (e) {
+      setError(getApiErrorMessage(e));
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  },
+  []
+);
 
   useFocusEffect(
     useCallback(() => {
@@ -60,13 +65,28 @@ export default function TasksScreen({ navigation }) {
   );
 
   const visibleTasks = useMemo(() => {
-    return tasks.filter((task) => {
-      const text = `${task.title} ${task.description || ''}`.toLowerCase();
-      const matchesSearch = text.includes(search.toLowerCase());
-      const matchesPriority = priority === 'all' || (task.priority || 'medium') === priority;
-      return matchesSearch && matchesPriority;
-    });
-  }, [tasks, search, priority]);
+  return tasks.filter((task) => {
+    const text =
+      `${task.title} ${task.description || ''}`.toLowerCase();
+
+    const matchesSearch =
+      text.includes(search.toLowerCase());
+
+    const matchesPriority =
+      priority === 'all' ||
+      (task.priority || 'medium') === priority;
+
+    const matchesStatus =
+      status === 'all' ||
+      task.status === status;
+
+    return (
+      matchesSearch &&
+      matchesPriority &&
+      matchesStatus
+    );
+  });
+}, [tasks, search, priority, status]);
 
   const stats = useMemo(() => {
     const total = tasks.length;
