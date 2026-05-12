@@ -1,50 +1,101 @@
-# Welcome to your Expo app 👋
+--
+# 📱 Task Manager Mobile App (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A full-featured **role-based task management mobile application** built using React Native (Expo) and integrated with a Node.js + MongoDB backend.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Live Backend API
 
-   ```bash
-   npm install
-   ```
+👉 https://task-manager-roles.onrender.com/api
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📦 Build (APK / App)
 
-In the output, you'll find options to open the app in a
+👉 https://expo.dev/accounts/renuka_srivalli/projects/mobile/builds/786d23ec-d9e4-4f8c-aee0-14d4deebef73
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## ✨ Features
 
-## Get a fresh project
+### 🔐 Authentication
+- Secure login using JWT
+- Persistent session storage
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+### 🧑 Admin Features
+- Create tasks
+- Assign tasks to users
+- View all tasks
+- Manage task lifecycle
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+### 👤 User Features
+- View assigned tasks only
+- Update task status
+- Track progress (pending → in-progress → completed)
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 📋 Task Management
+- Clean UI task cards
+- Status indicators
+- Priority labels
+- Due date support
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🧠 Tech Stack
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- React Native (Expo)
+- React Native Paper
+- Axios (API communication)
+- AsyncStorage (auth persistence)
+- Node.js backend
+- MongoDB database
+
+---
+
+## 🔌 API Configuration
+
+Base URL:
+
+https://task-manager-roles.onrender.com/api
+
+
+---
+
+## 📱 How to Run Locally
+
+
+npm install
+npx expo start
+
+Then scan QR using Expo Go app.
+
+📂 Project Structure
+mobile/
+├── src/
+│   ├── screens/
+│   ├── components/
+│   ├── services/
+│   ├── utils/
+│   └── theme/
+├── App.js
+├── app.json
+└── eas.json
+
+
+👥 Role System
+Role	Access
+Admin	Create & assign tasks
+User	View & update assigned tasks
+
+⚠️ Notes
+Backend must be running (Render deployed)
+Internet required for API calls
+JWT authentication required
+App works on Expo Go & APK build
