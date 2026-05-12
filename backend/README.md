@@ -1,195 +1,117 @@
 # 📋 Task Manager Backend API
 
-A production-ready REST API built with **Node.js**, **Express**, **MongoDB**, and **JWT Authentication**. Supports role-based access control for Admin and User roles.
+A production-ready REST API built using **Node.js, Express, MongoDB, and JWT Authentication** with full role-based access control.
+
+This backend powers a React Native Task Manager application.
+
+---
+
+## 🌐 Live API
+
+👉 https://task-manager-roles.onrender.com/api
+
+---
+
+## 🚀 Deployment
+
+- Backend Hosted on: Render  
+- Database: MongoDB Atlas  
+- Authentication: JWT (JSON Web Token)
 
 ---
 
 ## 📁 Folder Structure
-
-```
 backend/
 ├── config/
-│   ├── db.js            # MongoDB connection
-│   └── seed.js          # Seeds a default admin user
+│ ├── db.js
+│ └── seed.js
 ├── controllers/
-│   ├── authController.js  # Register, Login, Get Me
-│   └── taskController.js  # Task CRUD logic
+│ ├── authController.js
+│ └── taskController.js
 ├── middleware/
-│   ├── authMiddleware.js  # JWT token verification
-│   ├── roleMiddleware.js  # Role-based access control
-│   └── errorHandler.js    # Global error handler
+│ ├── authMiddleware.js
+│ ├── roleMiddleware.js
+│ └── errorHandler.js
 ├── models/
-│   ├── User.js            # User Mongoose model
-│   └── Task.js            # Task Mongoose model
+│ ├── User.js
+│ └── Task.js
 ├── routes/
-│   ├── authRoutes.js      # /api/auth/*
-│   └── taskRoutes.js      # /api/tasks/*
-├── .env.example           # Sample environment variables
-├── package.json
-└── server.js              # App entry point
-```
+│ ├── authRoutes.js
+│ └── taskRoutes.js
+├── server.js
+└── package.json
+
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone & Install
-
+### 1. Install Dependencies
 ```bash
-cd backend
 npm install
-```
 
-### 2. Configure Environment Variables
+2. Environment Setup
 
-```bash
-cp .env.example .env
-```
+Create .env file:
 
-Edit `.env` with your values:
-
-```
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/taskmanager
-JWT_SECRET=your_super_secret_key_change_this_in_production
-JWT_EXPIRES_IN=7d
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
 NODE_ENV=development
-```
 
-> ⚠️ Change `JWT_SECRET` to a long random string in production!
-
-### 3. Seed Admin User
-
-```bash
+3. Seed Admin User
 npm run seed
-```
 
-This creates a default admin account:
-- **Email:** admin@example.com
-- **Password:** Admin@123
+Default admin:
 
-### 4. Start the Server
+Email: admin@gmail.com
+Password: Renuka@2006
 
-```bash
-# Development (with auto-reload)
+
+4. Run Server
 npm run dev
 
-# Production
-npm start
-```
+Server runs at:
 
-Server runs on: `http://localhost:5000`
+http://localhost:5000
 
----
 
-## 🔑 API Endpoints
+🔑 API Endpoints
+Auth
+Method	Endpoint	Description
+POST	/api/auth/register	Register user
+POST	/api/auth/login	Login user
+GET	/api/auth/me	Get current user
+Tasks
+Method	Endpoint	Access	Description
+GET	/api/tasks	Admin/User	Get tasks
+POST	/api/tasks	Admin	Create task
+PUT	/api/tasks/:id	Admin/User	Update task
+DELETE	/api/tasks/:id	Admin	Delete task
+👥 Role System
+Role	Permissions
+Admin	Create, assign, view all tasks
+User	View & update assigned tasks only
+🔐 Authentication
 
-### Auth Routes
+All protected routes require:
 
-| Method | Endpoint              | Access  | Description              |
-|--------|-----------------------|---------|--------------------------|
-| POST   | `/api/auth/register`  | Public  | Create a new user account |
-| POST   | `/api/auth/login`     | Public  | Login and get JWT token  |
-| GET    | `/api/auth/me`        | Private | Get current user info    |
-
-### Task Routes
-
-| Method | Endpoint          | Access      | Description                                |
-|--------|-------------------|-------------|--------------------------------------------|
-| GET    | `/api/tasks`      | Private     | Admin: all tasks / User: assigned tasks    |
-| GET    | `/api/tasks/:id`  | Private     | Get a single task                          |
-| POST   | `/api/tasks`      | Admin only  | Create a new task                          |
-| PUT    | `/api/tasks/:id`  | Private     | Admin: full update / User: status only     |
-| DELETE | `/api/tasks/:id`  | Admin only  | Delete a task                              |
-
----
-
-## 🔐 Authentication
-
-All protected routes require a **Bearer token** in the `Authorization` header:
-
-```
-Authorization: Bearer <your_jwt_token>
-```
-
----
-
-## 📬 Example API Requests
-
-### Register a User
-```json
-POST /api/auth/register
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-### Login
-```json
-POST /api/auth/login
-{
-  "email": "admin@example.com",
-  "password": "Admin@123"
-}
-```
-
-### Create a Task (Admin)
-```json
-POST /api/tasks
-Authorization: Bearer <admin_token>
-
-{
-  "title": "Fix login bug",
-  "description": "The login page throws an error on mobile",
-  "status": "pending",
-  "assignedTo": "<user_id>"
-}
-```
-
-### Update Task Status (User)
-```json
-PUT /api/tasks/:id
-Authorization: Bearer <user_token>
-
-{
-  "status": "in-progress"
-}
-```
-
----
-
-## 🧑‍💻 Roles & Permissions
-
-| Action                    | Admin | User |
-|---------------------------|-------|------|
-| Create task               | ✅    | ❌   |
-| View all tasks            | ✅    | ❌   |
-| View assigned tasks       | ✅    | ✅   |
-| Assign task to user       | ✅    | ❌   |
-| Update any task field     | ✅    | ❌   |
-| Update own task status    | ✅    | ✅   |
-| Delete task               | ✅    | ❌   |
-
----
-
-## 📦 Tech Stack
-
-| Package     | Purpose                        |
-|-------------|--------------------------------|
-| express     | Web framework                  |
-| mongoose    | MongoDB ODM                    |
-| bcryptjs    | Password hashing               |
-| jsonwebtoken| JWT auth tokens                |
-| dotenv      | Environment variable loading   |
-| cors        | Cross-origin request handling  |
-| nodemon     | Auto-reload in development     |
-
----
-
-## 📌 Task Status Values
-
-- `pending` (default)
-- `in-progress`
-- `completed`
+Authorization: Bearer <token>
+🛠 Tech Stack
+Node.js
+Express.js
+MongoDB + Mongoose
+JWT Authentication
+bcryptjs
+dotenv
+cors
+📌 Task Status Values
+pending
+in-progress
+completed
+✨ Features
+Role-based access control
+Secure JWT authentication
+Task assignment system
+Admin dashboard APIs
+Clean modular architecture
